@@ -1,4 +1,4 @@
-export const Search = () => {
+export function Search() {
   return (
     <>
       Search

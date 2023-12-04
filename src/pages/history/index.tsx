@@ -1,4 +1,4 @@
-export const History = () => {
+export function History() {
   return (
     <>
       History
