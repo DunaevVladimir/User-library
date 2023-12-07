@@ -1,7 +1,1 @@
-export const Main = () => {
-  return (
-    <>
-      Main
-    </>
-  );
-};
+export { Main } from './ui/Page';
