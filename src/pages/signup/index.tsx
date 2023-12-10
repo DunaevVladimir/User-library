@@ -1,4 +1,4 @@
-export function Signup() {
+export default function Signup() {
   return (
     <>
       Signup

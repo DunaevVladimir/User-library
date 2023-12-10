@@ -1,4 +1,4 @@
-export function Favorites () {
+export default function Favorites () {
   return (
     <>
       Favorites

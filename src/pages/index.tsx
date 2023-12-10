@@ -1,14 +1,18 @@
+import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Main } from "@/pages/main";
-import { Signin } from "@/pages/signin";
-import { Signup } from "@/pages/signup";
-import { Search } from "@/pages/search";
-import { History } from "@/pages/history";
-import { Favorites } from "@/pages/favorites";
-import { Profile } from "@/pages/profile";
+import { Spinner } from "@/shared/ui/spinner/spinner";
+
+const Main = lazy(() => import('@/pages/main'));
+const Signin = lazy(() => import('@/pages/signin'));
+const Signup = lazy(() => import('@/pages/signup'));
+const Search = lazy(() => import('@/pages/search'));
+const History = lazy(() => import('@/pages/history'));
+const Favorites = lazy(() => import('@/pages/favorites'));
+const Profile = lazy(() => import('@/pages/profile'));
 
 export const Routing = () => {
   return (
+    <Suspense fallback={<Spinner />}>
       <Routes>
           <Route path="/" element={<Main/>} />
           <Route path="signin" element={<Signin/>} />
@@ -18,5 +22,6 @@ export const Routing = () => {
           <Route path="favorites" element={<Favorites/>} />
           <Route path="profile" element={<Profile/>} />
       </Routes>
+    </Suspense>
   );
 };

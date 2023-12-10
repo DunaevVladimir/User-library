@@ -1,4 +1,4 @@
-export function Signin() {
+export default function Signin() {
   return (
     <>
       Signin
