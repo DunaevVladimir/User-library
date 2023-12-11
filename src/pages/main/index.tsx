@@ -7,3 +7,5 @@ export default function Main() {
     </>
   );
 };
+
+export { Main } from './ui/Page';
