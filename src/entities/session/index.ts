@@ -2,6 +2,7 @@ export {
   sessionSlice,
   sessionReducer,
   clearSession, 
-  remindUser, 
   setUser,
 } from "./model/slice";
+
+export type { User } from "./model/types";
