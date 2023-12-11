@@ -3,13 +3,27 @@ import { HTMLInputTypeAttribute } from 'react';
 import s from './input.module.scss';
 
 type Props = {
-  onChange: () => void,
+  onChange: (value: string, name: string) => void,
   type?: HTMLInputTypeAttribute,
-  theme?: string
+  theme?: string,
+  currentValue: HTMLInputTypeAttribute,
+  name: string,
+  placeholder: HTMLInputTypeAttribute,
 }
 
-export function Input({ onChange, type, theme}: Props) {
-  return <input onChange={onChange} type={type} className={s[theme]}/>
+export function Input({ onChange, type, theme, currentValue, name, placeholder}: Props) {
+
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value, name);
+  };
+
+  return <input 
+    value={currentValue} 
+    onChange={onChangeHandler} 
+    type={type} 
+    placeholder={placeholder}
+    className={s[theme]}
+  />
 }
 
 Input.propTypes = {
