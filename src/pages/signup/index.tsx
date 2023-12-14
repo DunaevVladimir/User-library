@@ -15,22 +15,21 @@ export default function Signup() {
     password: ''
   })
 
-  const callbacks = {
-    onChange: useCallback((value: string, name: string) => {
+    const onChange = useCallback((value: string, name: string) => {
       setData(prevData => ({...prevData, [name]: value}));
-    }, []),
-    onSubmit: useCallback(() => {
+    }, []);
+
+    const onSubmit = useCallback(() => {
       localStorage.setItem('users', JSON.stringify(data));
       localStorage.setItem('currentUser', JSON.stringify(data.email));
       dispatch(setUser({email: data.email}));
       navigate('/');
-    }, [data])
-  };
+    }, [data]);
 
   return (
-    <LoginForm onSubmit={callbacks.onSubmit}>
-      <Input onChange={callbacks.onChange} type="email" placeholder="Email" name="email" currentValue={data.email}/>
-      <Input onChange={callbacks.onChange} type="password" placeholder="Password" name="password" currentValue={data.password}/>
+    <LoginForm onSubmit={onSubmit}>
+      <Input onChange={onChange} type="email" placeholder="Email" name="email" currentValue={data.email}/>
+      <Input onChange={onChange} type="password" placeholder="Password" name="password" currentValue={data.password}/>
       <Button type="submit">Sign up</Button>
     </LoginForm>
   );
