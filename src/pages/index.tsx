@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Spinner } from "@/shared/ui/spinner/spinner";
+import { Header } from "@/widgets/header";
 
 const Main = lazy(() => import('@/pages/main'));
 const Signin = lazy(() => import('@/pages/signin'));
@@ -13,6 +14,7 @@ const Profile = lazy(() => import('@/pages/profile'));
 export const Routing = () => {
   return (
     <Suspense fallback={<Spinner />}>
+      <Header />
       <Routes>
           <Route path="/" element={<Main/>} />
           <Route path="signin" element={<Signin/>} />

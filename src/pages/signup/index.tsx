@@ -5,6 +5,8 @@ import { Button } from "@/shared/ui/button/button";
 import { Input } from "@/shared/ui/input/input";
 import { setUser } from "@/entities/session";
 import { useDispatch } from 'react-redux';
+import { User } from "@/entities/session";
+
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -20,7 +22,8 @@ export default function Signup() {
     }, []);
 
     const onSubmit = useCallback(() => {
-      localStorage.setItem('users', JSON.stringify(data));
+      let users = JSON.parse(localStorage.getItem('users')!).concat(data);
+      localStorage.setItem('users', JSON.stringify(users));
       localStorage.setItem('currentUser', JSON.stringify(data.email));
       dispatch(setUser({email: data.email}));
       navigate('/');

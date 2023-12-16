@@ -4,26 +4,36 @@ import s from './input.module.scss';
 
 type Props = {
   onChange: (value: string, name: string) => void,
+  onFocus?: () => void,
   type?: HTMLInputTypeAttribute,
   theme?: string,
   currentValue: HTMLInputTypeAttribute,
   name: string,
   placeholder: HTMLInputTypeAttribute,
+  error?: string
 }
 
-export function Input({ onChange, type, theme, currentValue, name, placeholder}: Props) {
+export function Input({ onChange, onFocus, type, theme, currentValue, name, placeholder, error}: Props) {
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value, name);
   };
 
-  return <input 
-    value={currentValue} 
-    onChange={onChangeHandler} 
-    type={type} 
-    placeholder={placeholder}
-    className={s[theme]}
-  />
+  return (
+    <>
+      <input 
+        value={currentValue} 
+        onChange={onChangeHandler}
+        onFocus={onFocus}
+        type={type} 
+        placeholder={placeholder}
+        className={s[theme]}
+      />
+      {
+        error && <span className={s.Error}>{error}</span>
+      }
+    </>
+  );
 }
 
 Input.propTypes = {
