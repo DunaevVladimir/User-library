@@ -2,8 +2,8 @@ import s from './list.module.scss';
 
 type Props = {
   list: {
-    id: string,
-    text: string
+    key: string,
+    title: string;
   }[]
 }
 
@@ -12,7 +12,7 @@ export function List({list}: Props) {
     <ul>
       {
         list.map((item) => (
-          <li key={item.id}>{item.text}</li>
+          <li key={item.key}>{item?.title}</li>
         ))
       }
     </ul>

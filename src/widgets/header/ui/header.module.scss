@@ -12,10 +12,14 @@
   & a, button {
     color: royalblue;
     font-size: 18px;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: rgb(0, 166, 255);
+    }
   }
 
   & a {
-    transition: color 0.3s ease;
 
     &:hover {
       color: rgb(0, 166, 255);

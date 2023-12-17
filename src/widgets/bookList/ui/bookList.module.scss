@@ -1,9 +1,23 @@
 .Content {
   padding: 20px;
+  flex-grow: 1;
 }
 
 .List {
-  width: 200px;
-  height: 200px;
+  padding: 20px;
   border: 1px solid black;
+  height: 100%;
+}
+
+.SearchBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.Search {
+  width: 20px;
+  height: 20px;
+  background-image: url(../../../../assets/icons/search.svg);
 }

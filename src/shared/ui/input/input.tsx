@@ -9,11 +9,12 @@ type Props = {
   theme?: string,
   currentValue: HTMLInputTypeAttribute,
   name: string,
-  placeholder: HTMLInputTypeAttribute,
-  error?: string
+  placeholder?: HTMLInputTypeAttribute,
+  error?: string,
+  className?: string
 }
 
-export function Input({ onChange, onFocus, type, theme, currentValue, name, placeholder, error}: Props) {
+export function Input({ onChange, onFocus, type, theme, currentValue, name, placeholder, error, className}: Props) {
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value, name);
@@ -27,7 +28,7 @@ export function Input({ onChange, onFocus, type, theme, currentValue, name, plac
         onFocus={onFocus}
         type={type} 
         placeholder={placeholder}
-        className={s[theme]}
+        className={s.Input + ' ' + className}
       />
       {
         error && <span className={s.Error}>{error}</span>
