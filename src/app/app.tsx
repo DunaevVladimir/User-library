@@ -17,6 +17,3 @@ export function App() {
     <Routing />
   );
 }
-
-
-

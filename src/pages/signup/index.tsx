@@ -5,8 +5,6 @@ import { Button } from "@/shared/ui/button/button";
 import { Input } from "@/shared/ui/input/input";
 import { setUser } from "@/entities/session";
 import { useDispatch } from 'react-redux';
-import { User } from "@/entities/session";
-
 
 export default function Signup() {
   const navigate = useNavigate();
