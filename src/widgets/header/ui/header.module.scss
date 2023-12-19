@@ -1,0 +1,36 @@
+.Header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+.Nav {
+  display: flex;
+  gap: 10px;
+  font-size: 18px;
+
+  & a, button {
+    color: royalblue;
+    font-size: 18px;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: rgb(0, 166, 255);
+    }
+  }
+
+  & a {
+
+    &:hover {
+      color: rgb(0, 166, 255);
+    }
+
+    &:visited {
+      color: purple;
+    }
+
+    &:active {
+      color: red;
+    }
+  }
+}

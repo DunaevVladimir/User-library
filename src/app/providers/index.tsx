@@ -1,14 +1,16 @@
 import { BrowserRouter } from "react-router-dom";
-import { Routing } from "@/pages";
 import { Provider } from 'react-redux';
 import { store } from '@/app/providers/store';
-import { ReactNode } from "react";
 
-export function Providers(): ReactNode {
+type Props = {
+  children?: React.ReactNode;
+}
+
+export function Providers({children}: Props) {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Routing />
+        {children}
       </BrowserRouter>
     </Provider>
   );

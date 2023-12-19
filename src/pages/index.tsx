@@ -1,8 +1,7 @@
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Spinner } from "@/shared/ui/spinner/spinner";
-import { useDispatch } from 'react-redux';
-import { setUser } from "@/entities/session";
+import { Header } from "@/widgets/header";
 
 const Main = lazy(() => import('@/pages/main'));
 const Signin = lazy(() => import('@/pages/signin'));
@@ -13,17 +12,9 @@ const Favorites = lazy(() => import('@/pages/favorites'));
 const Profile = lazy(() => import('@/pages/profile'));
 
 export const Routing = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    let user = localStorage.getItem('currentUser');
-    if (user) {
-      dispatch(setUser({email: user}));
-    }
-  }, []);
-
   return (
     <Suspense fallback={<Spinner />}>
+      <Header />
       <Routes>
           <Route path="/" element={<Main/>} />
           <Route path="signin" element={<Signin/>} />
