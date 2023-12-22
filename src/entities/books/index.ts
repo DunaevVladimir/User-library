@@ -1,3 +1,6 @@
-export { useGetBooksQuery } from "./api/booksApi";
+export { BookItem } from "./ui/bookItem/bookItem";
 
-export type { Book } from './model/types';
+export { useGetBooksQuery, useGetBookByIdQuery } from "./api/booksApi";
+
+export type { Book, ChangedBook } from './model/types';
+
