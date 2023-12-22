@@ -1,35 +1,37 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useGetBooksQuery } from '@/entities/books';
+import { useSelector } from 'react-redux'
 import { List } from '@/shared/ui/list/list';
 import { Spinner } from '@/shared/ui/spinner/spinner';
 import { Input } from '@/shared/ui/input/input';
 import { Button } from '@/shared/ui/button/button';
+import { ChangedBook } from '@/entities/books';
 import s from './bookList.module.scss';
 import { useSearchParams } from 'react-router-dom';
+import { RootState } from '@/app/providers/store';
+import { BookArticle } from '@/widgets/bookArticle';
 
 export function BookList() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [input, setInput] = useState<string>(searchParams.get('q') || '');
+  const favoritesList = useSelector((state: RootState) => state.favorites.list);
 
-  const [params, setParams] = useState({
-    q: 'language:rus',
-    limit: 10,
-  });
-
-  //@ Забираем параметр q из URL и добавляем к params и в input
-  useEffect(() => {
-    const q = searchParams.get('q');
-    if (q) {
-      setParams({
-        ...params,
-        q: q
-      });
-    setInput(q);
+  const params = useMemo(() => {
+    return {
+      q: searchParams.get('q') || 'language:rus',
     }
-  }, [])
+  }, [searchParams]);
 
-  const [input, setInput] = useState('');
-
-  const { data: books = {docs: []}, isLoading , isFetching} = useGetBooksQuery(params, { skip: !params.q});
+  const { data: books = {docs: []}, isLoading , isFetching} = useGetBooksQuery(params);
+  const changedBooks = useMemo(() => {
+    return books.docs.map((item: ChangedBook) => {
+      if (favoritesList.includes(item.key)) {
+        return {...item, isAdded: true}
+      } else {
+        return {...item, isAdded: false}
+      }
+    })
+  }, [books, favoritesList]);
 
   const onChange = useCallback((value: string) => {
     setInput(value);
@@ -37,27 +39,25 @@ export function BookList() {
 
   //@ Устанавливаем параметры в поисковую строку и URL
   const onSearch = useCallback(() => {
-    setParams({
-      ...params,
-      q: input
-    });
     if (input) {
       setSearchParams({q: input});
     } else {
       searchParams.delete('q');
       setSearchParams(searchParams);
     }
-  }, [input, params, searchParams]);
+  }, [input, searchParams]);
 
   const onKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       onSearch();
     }
-  }, [onSearch])
+  }, [onSearch]);
+
+  const render = (book: ChangedBook) => { return <BookArticle book={book} /> }
 
   return (
     <>
-      <div onKeyDown={onKeyDown} className={s.Content}>
+      <main onKeyDown={onKeyDown} className={s.Content}>
         <div className={s.List}>
           <div className={s.SearchBar}>
             <Input onChange={onChange} type="text" placeholder="Поиск" name="query" currentValue={input} />
@@ -66,10 +66,10 @@ export function BookList() {
           {
             isLoading || isFetching
               ? <Spinner />
-              : <List list={books.docs}/>
+              : <List list={changedBooks} renderItem={render}/>
           }
         </div>
-      </div>
+      </main>
     </>
   );
 };

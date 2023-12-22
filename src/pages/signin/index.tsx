@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { LoginForm } from "@/widgets/loginForm";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/shared/ui/button/button";

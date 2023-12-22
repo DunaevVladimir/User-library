@@ -10,6 +10,7 @@ const Search = lazy(() => import('@/pages/search'));
 const History = lazy(() => import('@/pages/history'));
 const Favorites = lazy(() => import('@/pages/favorites'));
 const Profile = lazy(() => import('@/pages/profile'));
+const Book = lazy(() => import('@/pages/book'));
 
 export const Routing = () => {
   return (
@@ -23,6 +24,7 @@ export const Routing = () => {
           <Route path="history" element={<History/>} />
           <Route path="favorites" element={<Favorites/>} />
           <Route path="profile" element={<Profile/>} />
+          <Route path="/book/:type/:id" element={<Book/>} />
       </Routes>
     </Suspense>
   );
