@@ -11,3 +11,4 @@ type Props = {
 export const Button = memo(({ onClick, type, children, className}: Props) => {
   return <button onClick={onClick} type={type} className={s.Button + ' ' + className}>{children}</button>
 })
+
