@@ -11,8 +11,6 @@ export function HistoryPageContainer() {
   const dispatch = useDispatch();
   const list = useSelector((state: RootState) => state.history.list);
 
-  console.log(localStorage)
-
   const handleClick = useCallback((id: number) => {
     dispatch(deleteFromHistory(id));
     let history = JSON.parse(localStorage.getItem('history')!);

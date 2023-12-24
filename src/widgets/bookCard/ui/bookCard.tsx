@@ -8,7 +8,6 @@ type Props = {
 }
 
 export function BookCard({book}: Props) {
-  console.log(book)
   const isAdded = useFavorites(book.key);
   const description = (typeof book.description === 'string') ? book.description : book.description?.value
   return (
