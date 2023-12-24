@@ -1,3 +1,7 @@
+import { Book } from "@/entities/books";
+
 export type FavoritesState = {
-  list: string[];
+  list: Book[];
+  listId: string[];
+  isLoading: boolean;
 }

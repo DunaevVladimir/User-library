@@ -1,12 +1,14 @@
-import { ChangedBook } from '@/entities/books';
+import { Book } from '@/entities/books';
+import PropTypes from 'prop-types';
 import s from './list.module.scss';
 
 type Props = {
-  list: ChangedBook[],
-  renderItem: (book: ChangedBook) => JSX.Element
+  list: Book[],
+  renderItem: (book: Book) => JSX.Element,
+  emptyText?: string
 }
 
-export function List({list, renderItem}: Props) {
+export function List({list, renderItem, emptyText}: Props) {
   return (
     <ul>
       {
@@ -16,10 +18,15 @@ export function List({list, renderItem}: Props) {
                 {renderItem(item)}
               </li>
             ))
-          : 'Нет книг по заданному поиску'
+          : emptyText
 
       }
     </ul>
   );
 }
 
+List.propTypes = {
+  list: PropTypes.objectOf<Book>,
+  renderItem: PropTypes.func,
+  emptyText: PropTypes.string
+}

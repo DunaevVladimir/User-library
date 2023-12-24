@@ -1,19 +1,21 @@
-import { memo } from "react";
 import { NavLink } from "react-router-dom";
+import PropTypes from 'prop-types';
 import s from './link.module.scss';
 
 type Props = {
   path: string,
-  children?: React.ReactNode
+  children?: React.ReactNode | string
 }
 
-export const Link = memo(({path, children}: Props) => {
+export const Link = ({path, children}: Props) => {
   return (
-    <NavLink 
-      to={path}
-    >
-      {children}
-    </NavLink>
+    <NavLink to={path}>{children}</NavLink>
   );
-})
+}
+
+Link.propTypes = {
+  path: PropTypes.string,
+  children: PropTypes.element.isRequired
+}
+
 

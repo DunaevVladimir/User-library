@@ -1,0 +1,35 @@
+.Content {
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.List {
+  padding: 20px;
+  border: 1px solid black;
+  height: 100%;
+}
+
+.SearchBar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.Search {
+  width: 20px;
+  height: 20px;
+  background-image: url(../../../../assets/icons/search.svg);
+}
+
+.Sagests {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  padding: 5px 10px;
+  width: 400px;
+  border: 1px solid black;
+  z-index: 1;
+  background-color: #fff;
+}

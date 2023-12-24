@@ -4,10 +4,11 @@ export type Book = {
   author_name?: string,
   language?: string[],
   numberOfPages?: number,
-  description?: string,
+  description?: string | {type: string, value: string},
   first_publish_date: string
 }
 
-export type ChangedBook = {
-  isAdded: boolean
-} & Book
+export type BooksState = {
+  bookList: Book[];
+  isLoading: boolean;
+}
