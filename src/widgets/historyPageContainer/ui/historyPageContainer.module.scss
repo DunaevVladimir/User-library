@@ -1,0 +1,24 @@
+.Content {
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.List {
+  padding: 20px;
+  border: 1px solid black;
+  height: 100%;
+
+  & button {
+    color: royalblue;
+  }
+}
+
+.Item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px dotted gray;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}

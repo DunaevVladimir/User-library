@@ -12,9 +12,20 @@ export function AddToFavoritesButton({isAdded, id}: Props) {
   const dispatch = useDispatch();
 
   const onHandleClick = () => {
-    isAdded
-      ? dispatch(deleteFromFavorites(id))
-      : dispatch(addToFavorites(id))
+    if (isAdded) {
+      dispatch(deleteFromFavorites(id));
+      let favorites = JSON.parse(localStorage.getItem('favorites')!);
+      favorites = favorites.filter((item: string) => item !== id);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    } else {
+      dispatch(addToFavorites(id));
+      let favorites = JSON.parse(localStorage.getItem('favorites')!);
+      if (!favorites) {
+        favorites = [];
+      }
+      favorites = favorites.concat([id]);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
   }
 
   return (

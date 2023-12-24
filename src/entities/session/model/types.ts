@@ -5,5 +5,5 @@ export type User = {
 
 export type SessionState = {
   isAuthorized: boolean
-  user: User | null
+  user: User | null,
 }

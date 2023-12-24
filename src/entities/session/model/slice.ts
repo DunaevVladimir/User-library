@@ -4,7 +4,7 @@ import { SessionState, User } from './types';
 
 const initialState: SessionState = {
   isAuthorized: false,
-  user: null
+  user: null,
 }
 
 export const sessionSlice = createSlice({
@@ -22,6 +22,6 @@ export const sessionSlice = createSlice({
   },
 })
 
-export const { clearSession, setUser, } = sessionSlice.actions
+export const { clearSession, setUser } = sessionSlice.actions
 
 export const sessionReducer  = sessionSlice.reducer

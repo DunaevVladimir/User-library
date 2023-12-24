@@ -10,6 +10,7 @@ export function Header() {
   return (
     <header className={s.Header}>
        <nav className={s.Nav}>
+        <Link path={'/'}>Главная</Link>
         {
           isAuth 
             ? <>

@@ -1,9 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { FavoritesState } from './types';
 
 const initialState: FavoritesState = {
-  list: []
+  list: [],
+  listId: [],
+  isLoading: false,
 }
 
 export const favoritesSlice = createSlice({
@@ -11,17 +13,20 @@ export const favoritesSlice = createSlice({
   initialState,
   reducers: {
     addToFavorites: (state, action: PayloadAction<string>) => {
-      state.list = [...state.list, action.payload];
+      state.listId = [...state.listId, action.payload];
     },
     deleteFromFavorites: (state, action: PayloadAction<string>) => {
-      state.list = state.list.filter(item => item !== action.payload);
+      state.listId = state.listId.filter(item => item !== action.payload);
     },
     clearFavorites: (state) => {
       state.list = [];
+    },
+    setFavoritesList: (state, action: PayloadAction<string[]>) => {
+      state.listId = action.payload;
     }
   },
 })
 
-export const { addToFavorites, deleteFromFavorites, clearFavorites } = favoritesSlice.actions
+export const { addToFavorites, deleteFromFavorites, clearFavorites, setFavoritesList } = favoritesSlice.actions
 
 export const favoritesReducer  = favoritesSlice.reducer
