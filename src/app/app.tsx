@@ -9,6 +9,7 @@ export function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(localStorage)
     let user = localStorage.getItem('currentUser');
     if (user) {
       dispatch(setUser({email: user}));

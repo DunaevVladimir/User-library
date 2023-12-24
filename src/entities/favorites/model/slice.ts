@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { FavoritesState } from './types';
 
@@ -19,7 +19,7 @@ export const favoritesSlice = createSlice({
       state.listId = state.listId.filter(item => item !== action.payload);
     },
     clearFavorites: (state) => {
-      state.list = [];
+      state.listId = [];
     },
     setFavoritesList: (state, action: PayloadAction<string[]>) => {
       state.listId = action.payload;
