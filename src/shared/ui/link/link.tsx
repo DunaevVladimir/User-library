@@ -4,18 +4,18 @@ import s from './link.module.scss';
 
 type Props = {
   path: string,
-  children?: React.ReactNode | string
+  text: string,
 }
 
-export const Link = ({path, children}: Props) => {
+export const Link = ({path, text}: Props) => {
   return (
-    <NavLink to={path}>{children}</NavLink>
+    <NavLink to={path}>{text}</NavLink>
   );
 }
 
 Link.propTypes = {
   path: PropTypes.string,
-  children: PropTypes.element.isRequired
+  text: PropTypes.string,
 }
 
 

@@ -11,7 +11,7 @@ type Props = {
   currentValue: HTMLInputTypeAttribute,
   name: string,
   placeholder?: HTMLInputTypeAttribute,
-  error?: string,
+  error?: string | null,
   className?: string
 }
 

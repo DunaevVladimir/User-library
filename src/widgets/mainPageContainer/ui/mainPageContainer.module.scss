@@ -10,6 +10,7 @@
 }
 
 .SearchBar {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -20,4 +21,15 @@
   width: 20px;
   height: 20px;
   background-image: url(../../../../assets/icons/search.svg);
+}
+
+.Sagests {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  padding: 5px 10px;
+  width: 400px;
+  border: 1px solid black;
+  z-index: 1;
+  background-color: #fff;
 }

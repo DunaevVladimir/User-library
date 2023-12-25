@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { baseApi } from '@/shared/api';
-import { sessionReducer } from '@/entities/session';
-import { favoritesReducer } from '@/entities/favorites';
-import { historyReducer } from '@/entities/history';
+import { sessionMiddleware, sessionReducer } from '@/entities/session';
+import { favoritesReducer, favoritesMiddleware } from '@/entities/favorites';
+import { historyReducer, historyMiddleware } from '@/entities/history';
 
 export const store = configureStore({
     reducer: {
@@ -11,7 +11,11 @@ export const store = configureStore({
         favorites: favoritesReducer,
         history: historyReducer,
     },
-    middleware: (getDefaultMiddlware) => getDefaultMiddlware().concat(baseApi.middleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+        .concat(baseApi.middleware)
+        .concat(favoritesMiddleware.middleware)
+        .concat(historyMiddleware.middleware)
+        .concat(sessionMiddleware.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>

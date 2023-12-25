@@ -13,14 +13,14 @@ export function HistoryPageContainer() {
 
   const handleClick = useCallback((id: number) => {
     dispatch(deleteFromHistory(id));
-    let history = JSON.parse(localStorage.getItem('history')!);
-    history = history.filter((item: {title: string, link: string, id: number}) => item.id !== id);
-    localStorage.setItem('history', JSON.stringify(history));
+    // let history = JSON.parse(localStorage.getItem('history')!);
+    // history = history.filter((item: {title: string, link: string, id: number}) => item.id !== id);
+    // localStorage.setItem('history', JSON.stringify(history));
   }, []);
 
   const onClearHistory = useCallback(() => {
     dispatch(clearHistory());
-    localStorage.setItem('history', JSON.stringify([]));
+    // localStorage.setItem('history', JSON.stringify([]));
   }, []);
 
   return (

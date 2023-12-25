@@ -4,24 +4,13 @@ import { Routing } from "@/pages";
 import { setUser } from "@/entities/session";
 import { setFavoritesList } from "@/entities/favorites";
 import { setHistoryList } from "@/entities/history";
+import { remindSession } from "@/entities/session";
 
 export function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(localStorage)
-    let user = localStorage.getItem('currentUser');
-    if (user) {
-      dispatch(setUser({email: user}));
-    }
-    let favoritesList = JSON.parse(localStorage.getItem('favorites')!);
-    if (favoritesList) {
-      dispatch(setFavoritesList(favoritesList));
-    }
-    let historyList = JSON.parse(localStorage.getItem('history')!);
-    if (historyList) {
-      dispatch(setHistoryList(historyList));
-    }
+    dispatch(remindSession());
   }, []);
 
   return (

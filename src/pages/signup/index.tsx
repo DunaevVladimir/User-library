@@ -3,7 +3,7 @@ import { LoginForm } from "@/widgets/loginForm";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/shared/ui/button/button";
 import { Input } from "@/shared/ui/input/input";
-import { setUser } from "@/entities/session";
+import { createUser } from "@/entities/session";
 import { useDispatch } from 'react-redux';
 
 export default function Signup() {
@@ -20,10 +20,7 @@ export default function Signup() {
     }, []);
 
     const onSubmit = useCallback(() => {
-      let users = JSON.parse(localStorage.getItem('users')!).concat(data);
-      localStorage.setItem('users', JSON.stringify(users));
-      localStorage.setItem('currentUser', JSON.stringify(data.email));
-      dispatch(setUser({email: data.email}));
+      dispatch(createUser({email: data.email, password: data.password}));
       navigate('/');
     }, [data]);
 

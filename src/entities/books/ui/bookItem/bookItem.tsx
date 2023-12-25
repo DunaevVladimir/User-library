@@ -9,11 +9,9 @@ type Props = {
 export function BookItem({book}: Props) {
   return (
     <div className={s.Content}>
-      <Link path={`/book${book.key}`}>
-        <div className={s.Title}>
-          {book.title}
-        </div>
-      </Link>
+      <div className={s.Title}>
+        <Link path={`/book${book.key}`} text={book.title}></Link>
+      </div>
       <div className={s.Author}>
         {book.author_name}
       </div>

@@ -4,28 +4,25 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/shared/ui/button/button";
 import { Input } from "@/shared/ui/input/input";
 import { useDispatch } from 'react-redux';
-import { setUser } from "@/entities/session";
-import { User } from "@/entities/session";
+import { login, setErrors } from "@/entities/session";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/providers/store";
 
 export default function Signin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const errors = useSelector((state: RootState) => state.session.errors);
 
   const [data, setData] = useState({
     email: '',
     password: ''
   });
 
-  const [errors, setErrors] = useState({
-    emailError: '',
-    passwordError: ''
-  });
-
   const clearErrors = useCallback(() => {
-    setErrors({
+    dispatch(setErrors({
       emailError: '',
       passwordError: ''
-    })
+    }));
   }, []);
 
   const onChange = useCallback((value: string, name: string) => {
@@ -37,25 +34,16 @@ export default function Signin() {
   }, []);
 
   const onSubmit = useCallback(() => {
-    let user: User = JSON.parse(localStorage.getItem('users')!).find((item: User) => item.email === data.email);
-    if (user) {
-      if (user?.password === data.password) {
-        localStorage.setItem('currentUser', JSON.stringify(data.email));
-        dispatch(setUser({email: data.email}));
-        navigate('/');
-      } else {
-        setErrors({
-          emailError: '',
-          passwordError: 'Неправильно введен пароль'
-        })
-      }
-    } else {
-      setErrors({
-        emailError: 'Нет пользователя с такой почтой',
-        passwordError: ''
-      })
+    dispatch(login({email: data.email, password: data.password}));
+    nav();
+  }, [data, errors]);
+
+  const nav = useCallback(() => {
+    if (!errors.emailError && !errors.passwordError) {
+      navigate('/');
+      clearErrors();
     }
-  }, [data]);
+  }, [errors]);
 
   return (
     <LoginForm onSubmit={onSubmit}>

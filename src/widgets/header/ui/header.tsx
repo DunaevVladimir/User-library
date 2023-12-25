@@ -10,18 +10,18 @@ export function Header() {
   return (
     <header className={s.Header}>
        <nav className={s.Nav}>
-        <Link path={'/'}>Главная</Link>
+        <Link path={'/'} text="Главная"></Link>
         {
           isAuth 
             ? <>
-                <Link path={'/favorites'}>Избранное</Link>
-                <Link path={'/history'}>История</Link>
+                <Link path={'/favorites'} text="Избранное"></Link>
+                <Link path={'/history'} text="История"></Link>
                 <LogoutButton />
               </>
             : 
               <>
-                <Link path={'/signin'}>Войти</Link>
-                <Link path={'/signup'}>Зарегистрироваться</Link>
+                <Link path={'/signin'} text="Войти"></Link>
+                <Link path={'/signup'} text="Зарегистрироваться"></Link>
               </>
         }
        </nav>

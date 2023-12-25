@@ -1,5 +1,4 @@
 import { Book } from '@/entities/books';
-import PropTypes from 'prop-types';
 import s from './list.module.scss';
 
 type Props = {
@@ -23,10 +22,4 @@ export function List({list, renderItem, emptyText}: Props) {
       }
     </ul>
   );
-}
-
-List.propTypes = {
-  list: PropTypes.objectOf<Book>,
-  renderItem: PropTypes.func,
-  emptyText: PropTypes.string
 }

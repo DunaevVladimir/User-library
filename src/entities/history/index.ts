@@ -6,3 +6,5 @@ export {
   clearHistory,
   setHistoryList
 } from "./model/slice";
+
+export { historyMiddleware } from "./api/historyMiddleware";

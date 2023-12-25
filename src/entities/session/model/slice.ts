@@ -5,6 +5,10 @@ import { SessionState, User } from './types';
 const initialState: SessionState = {
   isAuthorized: false,
   user: null,
+  errors: {
+    emailError: '',
+    passwordError: '',
+  }
 }
 
 export const sessionSlice = createSlice({
@@ -19,9 +23,21 @@ export const sessionSlice = createSlice({
       state.isAuthorized = true
       state.user = action.payload;
     },
+    createUser: (state, action: PayloadAction<User>) => {
+
+    },
+    remindSession: () => {
+
+    },
+    login: (state, action: PayloadAction<User>) => {
+
+    },
+    setErrors: (state, action: PayloadAction<{emailError: string, passwordError: string}>) => {
+      state.errors = action.payload;
+    }
   },
 })
 
-export const { clearSession, setUser } = sessionSlice.actions
+export const { clearSession, setUser, createUser, remindSession, login, setErrors } = sessionSlice.actions
 
 export const sessionReducer  = sessionSlice.reducer
