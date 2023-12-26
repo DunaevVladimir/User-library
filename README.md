@@ -1,6 +1,6 @@
-Приложение для поиска книг
+# Приложение для поиска книг
 
-В проекте используются:
+## В проекте используются:
 
 1. Архитектура FSD
 2. Typescript
@@ -9,7 +9,7 @@
 5. React Router
 6. Api - https://openlibrary.org/
 
-Проект разделен на страницы:
+## Проект разделен на страницы:
 
 1. Главная
 2. Поиск
@@ -19,17 +19,27 @@
 6. Регистрация
 7. Карточка книги
 
-Реализованы Требования к функциональности.
-Учетные записи, а также избранное и история поиска хранятся в localStorage
-Код разделен на глупые и умные компоненты
-Есть компонент :ist для рендеринга списков
-Реализована форма для ввода email и password для страниц авторизации и регистрации
-Реализован кастомный хук useFavorites
-Компоненты Link и Input используют PropsTypes
-Используется useDebounce а страницах main и search
-Добавлена ленивая загрузка для роутов и Spinner в качестве fallback
-Используются RTK и RTK Query, а также сущности поделены на слайсы
-Есть middleware для стороннего эфекта записи и чтеия в localStorage
+### 1 уроверь(обязательный):
 
-Используется TypeScript
+- Учетные записи, а также избранное и история поиска хранятся в localStorage
+- Код разделен на глупые и умные компоненты:
+  Умные: [MainPageContainer](https://github.com/DunaevVladimir/User-library/blob/main/src/widgets/mainPageContainer/ui/mainPageContainer.tsx), [BookArticle](https://github.com/DunaevVladimir/User-library/blob/main/src/widgets/bookArticle/ui/bookArticle.tsx), [Header](https://github.com/DunaevVladimir/User-library/blob/main/src/widgets/header/ui/header.tsx)
+  Глупые: [Button](https://github.com/DunaevVladimir/User-library/blob/main/src/shared/ui/button/button.tsx), [Spinner](https://github.com/DunaevVladimir/User-library/blob/main/src/shared/ui/spinner/spinner.tsx), [Link](https://github.com/DunaevVladimir/User-library/blob/main/src/shared/ui/link/link.tsx)
+- Есть рендеринг списков: [MainPageContainer](https://github.com/DunaevVladimir/User-library/blob/main/src/widgets/mainPageContainer/ui/mainPageContainer.tsx), [SearchPageContainer](https://github.com/DunaevVladimir/User-library/blob/main/src/widgets/searchPageContainer/index.ts), [HistoryPageContainer](https://github.com/DunaevVladimir/User-library/blob/main/src/widgets/historyPageContainer/ui/historyPageContainer.tsx)
+- Реализована форма для ввода email и password для страниц авторизации и регистрации: [LoginForm](https://github.com/DunaevVladimir/User-library/blob/main/src/widgets/loginForm/ui/loginForm.tsx)
+- Реализован кастомный хук: [useFavorites](https://github.com/DunaevVladimir/User-library/blob/main/src/entities/favorites/lib/useFavorites.ts)
+- Компоненты [Link](https://github.com/DunaevVladimir/User-library/blob/main/src/shared/ui/link/link.tsx) и [Input](https://github.com/DunaevVladimir/User-library/blob/main/src/shared/ui/input/input.tsx) используют PropsTypes
+- Используется useDebounce в компонентах [MainPageContainer](https://github.com/DunaevVladimir/User-library/blob/main/src/widgets/mainPageContainer/ui/mainPageContainer.tsx) и [SearchPageContainer](https://github.com/DunaevVladimir/User-library/blob/main/src/widgets/searchPageContainer/index.ts)
+- Добавлена ленивая загрузка для [Routing](https://github.com/DunaevVladimir/User-library/blob/main/src/pages/index.tsx) и [Spinner](https://github.com/DunaevVladimir/User-library/blob/main/src/shared/ui/spinner/spinner.tsx) в качестве fallback
+
+### Redux:
+
+- Использую Modern Redux with Redux Toolkit [store](https://github.com/DunaevVladimir/User-library/blob/main/src/app/providers/store.ts)
+- Использую слайсы: [sessionSlice](https://github.com/DunaevVladimir/User-library/blob/main/src/entities/session/model/slice.ts),
+[favoritesSlice](https://github.com/DunaevVladimir/User-library/blob/main/src/entities/favorites/model/slice.ts),[historySlice](https://github.com/DunaevVladimir/User-library/blob/main/src/entities/history/model/slice.ts)
+- Использую middleware для стороннего эфекта записи и чтения в localStorage [historyMiddleware](https://github.com/DunaevVladimir/User-library/blob/main/src/entities/history/api/historyMiddleware.ts), [favoritesMiddleware](https://github.com/DunaevVladimir/User-library/blob/main/src/entities/favorites/model/slice.ts), [sessionMiddleware](https://github.com/DunaevVladimir/User-library/blob/main/src/entities/session/api/sessionMiddleware.ts)
+
+### 2 уровень(необязательный)
+- Используется TypeScript: [type Book](https://github.com/DunaevVladimir/User-library/blob/main/src/entities/books/model/types.ts),
+[type User](https://github.com/DunaevVladimir/User-library/blob/main/src/entities/session/model/types.ts)
 
