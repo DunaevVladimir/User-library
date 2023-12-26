@@ -9,6 +9,6 @@ export {
   setErrors,
 } from "./model/slice";
 
-export type { User } from "./model/types";
+export type { User, UserData } from "./model/types";
 
 export { sessionMiddleware } from "./api/sessionMiddleware";

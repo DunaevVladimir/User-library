@@ -3,6 +3,11 @@ export type User = {
   password?: string,
 }
 
+export type UserData = {
+  favorites: string[],
+  history: {link: string, title: string, id: number}[]
+} & User
+
 export type SessionState = {
   isAuthorized: boolean
   user: User | null,

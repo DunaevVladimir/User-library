@@ -1,6 +1,7 @@
 import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import { RootState } from '@/app/providers/store';
 import { User } from '../model/types';
+import { UserData } from '../model/types';
 
 import { 
   setUser,
@@ -10,6 +11,9 @@ import {
   login,
   setErrors,
 } from '../model/slice';
+
+import { setFavoritesList } from '@/entities/favorites';
+import { setHistoryList } from '@/entities/history';
 
 export const sessionMiddleware = createListenerMiddleware();
 
@@ -67,9 +71,15 @@ sessionMiddleware.startListening({
 sessionMiddleware.startListening({
   actionCreator: remindSession,
   effect: (action, listenerApi) => {
-    let user = JSON.parse(localStorage.getItem('currentUser')!);
-    if (user) {
-      listenerApi.dispatch(setUser({email: user.email}));
+    let currentUser = localStorage.getItem('currentUser');
+    let users = localStorage.getItem('users');
+    if (currentUser && users) {
+      listenerApi.dispatch(setUser({email: currentUser}));
+        let user = JSON.parse(users).find((user: UserData) => user.email === currentUser);
+        listenerApi.dispatch(setFavoritesList(user.favorites || []));
+        listenerApi.dispatch(setHistoryList(user.history || [])); 
+    } else {
+      setFavoritesList
     }
   }
 })
