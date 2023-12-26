@@ -31,7 +31,7 @@ export function HistoryPageContainer() {
           {
             list.map((item, index) => {
               return <li key={item.id} className={s.Item}>
-                <Link path={item.link}>{item.title}</Link>
+                <Link path={item.link} text={item.title}></Link>
                 <Button onClick={() => handleClick(item.id)}>X</Button>
               </li>
             })

@@ -42,7 +42,7 @@ sessionMiddleware.startListening({
       let user = JSON.parse(users).find((item: User) => item.email === action.payload.email);
       if (user) {
         if (user.password === action.payload.password) {
-           listenerApi.dispatch(setUser(action.payload));
+          listenerApi.dispatch(setUser(action.payload));
         } else {
          listenerApi.dispatch(setErrors({
           emailError: '',
