@@ -11,7 +11,7 @@ export function Providers({children}: Props) {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <ThemeContext.Provider value={themes.dark}>
+        <ThemeContext.Provider value={themes.light}>
           {children}
         </ThemeContext.Provider>
       </BrowserRouter>
