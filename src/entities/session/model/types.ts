@@ -10,7 +10,7 @@ export type UserData = {
 
 export type SessionState = {
   isAuthorized: boolean
-  user: User | null,
+  userEmail: string | null,
   errors: {
     emailError: string,
     passwordError: string

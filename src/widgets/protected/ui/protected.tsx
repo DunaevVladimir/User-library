@@ -1,8 +1,7 @@
 import {useEffect} from "react";
-import { useSelector } from "react-redux";
 import {useNavigate } from "react-router-dom";
-import { RootState } from "@/app/providers/store";
 import { Spinner } from "@/shared/ui/spinner/spinner";
+import { useAuth } from "@/entities/session";
 
 type Props = {
   children: React.ReactNode,
@@ -10,7 +9,7 @@ type Props = {
 }
 
 export function Protected({children, redirect}: Props) {
-  const isAuth = useSelector((state: RootState) => state.session.isAuthorized);
+  const isAuth = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {

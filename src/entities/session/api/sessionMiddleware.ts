@@ -1,14 +1,10 @@
-import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
-import { RootState } from '@/app/providers/store';
+import { createListenerMiddleware } from '@reduxjs/toolkit';
 import { User } from '../model/types';
-import { UserData } from '../model/types';
 
 import { 
-  setUser,
-  clearSession, 
+  successLogin,
+  logout,
   createUser,
-  remindSession,
-  login,
   setErrors,
 } from '../model/slice';
 
@@ -18,9 +14,25 @@ import { setHistoryList } from '@/entities/history';
 export const sessionMiddleware = createListenerMiddleware();
 
 sessionMiddleware.startListening({
-  matcher: isAnyOf(setUser, clearSession),
+  actionCreator: successLogin,
   effect: (action, listenerApi) => {
-    localStorage.setItem('currentUser', JSON.stringify((listenerApi.getState() as RootState).session.user));
+    localStorage.setItem('currentUser', JSON.stringify(action.payload));
+    let users = localStorage.getItem('users');
+    if (users) {
+      let user = JSON.parse(users).find((item: User) => item.email === action.payload.email);
+      if (user) {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        listenerApi.dispatch(setFavoritesList(user.favorites));
+        listenerApi.dispatch(setHistoryList(user.history));
+      }
+    }
+  }
+})
+
+sessionMiddleware.startListening({
+  actionCreator: logout,
+  effect: () => {
+    localStorage.removeItem('currentUser');
   }
 })
 
@@ -34,52 +46,6 @@ sessionMiddleware.startListening({
     } else {
       localStorage.setItem('users', JSON.stringify([action.payload]));
     }
-    listenerApi.dispatch(setUser(action.payload));
-  }
-})
-
-sessionMiddleware.startListening({
-  actionCreator: login,
-  effect: async (action, listenerApi) => {
-    let users = localStorage.getItem('users');
-    if (users) {
-      let user = JSON.parse(users).find((item: User) => item.email === action.payload.email);
-      if (user) {
-        if (user.password === action.payload.password) {
-          listenerApi.dispatch(setUser(action.payload));
-        } else {
-         listenerApi.dispatch(setErrors({
-          emailError: '',
-          passwordError: 'Неправильно введен пароль'
-         }));       
-        }
-      } else {
-       listenerApi.dispatch(setErrors({
-        emailError: "Нет пользователя с такой почтой",
-        passwordError: ''
-       }));
-      }
-    } else {
-       listenerApi.dispatch(setErrors({
-        emailError: "Нет пользователя с такой почтой",
-        passwordError: ''
-      }));
-    }
-  }
-})
-
-sessionMiddleware.startListening({
-  actionCreator: remindSession,
-  effect: (action, listenerApi) => {
-    let currentUser = localStorage.getItem('currentUser');
-    let users = localStorage.getItem('users');
-    if (currentUser && users) {
-      listenerApi.dispatch(setUser({email: currentUser}));
-        let user = JSON.parse(users).find((user: UserData) => user.email === currentUser);
-        listenerApi.dispatch(setFavoritesList(user.favorites || []));
-        listenerApi.dispatch(setHistoryList(user.history || [])); 
-    } else {
-      setFavoritesList
-    }
+    localStorage.setItem('currentUser', JSON.stringify(action.payload));
   }
 })

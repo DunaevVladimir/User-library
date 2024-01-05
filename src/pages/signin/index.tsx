@@ -1,28 +1,25 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { LoginForm } from "@/widgets/loginForm";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/shared/ui/button/button";
 import { Input } from "@/shared/ui/input/input";
+import { Error } from "@/shared/ui/error/error";
 import { useDispatch } from 'react-redux';
-import { login, setErrors } from "@/entities/session";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/providers/store";
+import { successLogin } from "@/entities/session";
+import { login } from "@/features/auth/login";
 
 export default function Signin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const errors = useSelector((state: RootState) => state.session.errors);
+  const [error, setError] = useState('');
 
   const [data, setData] = useState({
     email: '',
     password: ''
   });
 
-  const clearErrors = useCallback(() => {
-    dispatch(setErrors({
-      emailError: '',
-      passwordError: ''
-    }));
+  const clearError = useCallback(() => {
+    setError('');
   }, []);
 
   const onChange = useCallback((value: string, name: string) => {
@@ -30,39 +27,33 @@ export default function Signin() {
   }, []);
 
   const onFocus = useCallback(() => {
-    clearErrors();
+    clearError();
   }, []);
 
   const onSubmit = useCallback(() => {
-    dispatch(login({email: data.email, password: data.password}));
-    nav();
-  }, [data, errors]);
-
-  const nav = useCallback(() => {
-    if (!errors.emailError && !errors.passwordError) {
-      navigate('/');
-      clearErrors();
-    }
-  }, [errors]);
+    login({email: data.email, password: data.password})
+      .then(() => dispatch(successLogin({email: data.email, password: data.password})))
+      .then(() => navigate('/'))
+      .catch((err) => setError(err.message))
+  }, [data]);
 
   return (
     <LoginForm onSubmit={onSubmit}>
+      <Error text={error}/>
       <Input 
         onChange={onChange} 
         onFocus={onFocus}
         type="email" 
         placeholder="Email" 
         name="email" 
-        currentValue={data.email} 
-        error={errors.emailError} />
+        currentValue={data.email} />
       <Input 
         onChange={onChange} 
         onFocus={onFocus}
         type="password" 
         placeholder="Password" 
         name="password" 
-        currentValue={data.password} 
-        error={errors.passwordError} />
+        currentValue={data.password} />
       <Button type="submit">Sign in</Button>
     </LoginForm>
   );

@@ -3,7 +3,10 @@ export {
   addToFavorites,
   deleteFromFavorites,
   clearFavorites,
-  setFavoritesList
+  setFavoritesList,
+  fetchFavorites,
+  clear,
+  setLoading
 } from "./model/slice";
 
 export { useFavorites } from "./lib/useFavorites";

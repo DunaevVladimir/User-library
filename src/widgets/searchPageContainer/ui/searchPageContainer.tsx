@@ -4,11 +4,13 @@ import { List } from '@/shared/ui/list/list';
 import { Spinner } from '@/shared/ui/spinner/spinner';
 import { Input } from '@/shared/ui/input/input';
 import { Button } from '@/shared/ui/button/button';
-import { Book } from '@/entities/books';
+import { Book, BookItem } from '@/entities/books';
 import { useSearchParams } from 'react-router-dom';
 import { BookArticle } from '@/widgets/bookArticle';
-import { BookItem } from '@/entities/books';
 import { useDebounce } from 'usehooks-ts';
+import { useDispatch } from 'react-redux';
+import { addToHistory } from '@/entities/history';
+import { generateId } from '@/widgets/mainPageContainer/lib/generateId';
 import s from './searchPageContainer.module.scss';
 
 export function SearchPageContainer() {
@@ -17,9 +19,15 @@ export function SearchPageContainer() {
   const [isSagests, setIsSagests] = useState<boolean>(false);
   const [isSagestsFocus, setIsSagestsFocus] = useState<boolean>(false);
   const debouncedValue = useDebounce<string>(input, 500);
+  const dispatch = useDispatch();
 
   const params = {
     q: debouncedValue || 'language:rus',
+    limit: 5,
+  }
+
+  const params2 = {
+    q: 'language:rus',
     limit: 5,
   }
 
@@ -32,7 +40,9 @@ export function SearchPageContainer() {
   //@ Устанавливаем параметры в поисковую строку и URL
   const onSearch = useCallback(() => {
     if (input) {
+      dispatch(addToHistory({title: input, link: `/search?q=${input}`, id: generateId()}));
       setSearchParams({q: input});
+      setIsSagests(false);
     } else {
       searchParams.delete('q');
       setSearchParams(searchParams);
@@ -74,7 +84,7 @@ export function SearchPageContainer() {
           }
         </div>
         {
-          isLoading
+          isLoading || isFetching
             ? <Spinner />
             : <List list={books.docs} renderItem={render} emptyText='Нет книг по вашим параметрам'/>
         }

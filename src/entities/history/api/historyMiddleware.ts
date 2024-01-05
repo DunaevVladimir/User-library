@@ -11,13 +11,17 @@ import {
 export const historyMiddleware = createListenerMiddleware();
 
 historyMiddleware.startListening({
-  matcher: isAnyOf(addToHistory, deleteFromHistory,clearHistory),
+  matcher: isAnyOf(addToHistory, deleteFromHistory, clearHistory),
   effect: (action, listenerApi) => {
-    let currentUserEmail = (listenerApi.getState() as RootState).session.user?.email;
+    let userEmail = (listenerApi.getState() as RootState).session.userEmail;
     let users = localStorage.getItem('users');
-    if (currentUserEmail && users) {
+    if (userEmail && users) {
       users = JSON.parse(users).map((user: UserData) => {
-        if (user.email === currentUserEmail) {
+        if (user.email === userEmail) {
+          localStorage.setItem('currentUser', JSON.stringify({
+            ...user,
+            history: (listenerApi.getState() as RootState).history.list         
+          }));
           return {
             ...user,
             history: (listenerApi.getState() as RootState).history.list

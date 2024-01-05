@@ -1,13 +1,12 @@
-import type { RootState } from '@/app/providers/store';
-import { useSelector } from 'react-redux';
 import { Link } from '@/shared/ui/link/link';
 import { LogoutButton } from '@/features/auth/logout';
 import s from './header.module.scss';
 import { useContext } from 'react';
 import { ThemeContext } from '@/app/providers/themeContext';
+import { useAuth } from '@/entities/session';
 
 export function Header() {
-  const isAuth = useSelector((state: RootState) => state.session.isAuthorized);
+  const isAuth = useAuth();
   const theme = useContext(ThemeContext);
 
   return (

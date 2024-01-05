@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { getLocalHistory } from '../lib/getLocalHistory';
 import { HistoryState } from './types';
 
 const initialState: HistoryState = {
-  list: [],
+  list: getLocalHistory(),
 }
 
 export const historySlice = createSlice({

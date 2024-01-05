@@ -26,8 +26,9 @@ export function MainPageContainer() {
 
   const params = {
     q: debouncedValue || 'language:rus',
-    limit: 5,
+    limit: 10,
   }
+
   const { data: books = {docs: []}, isLoading , isFetching} = useGetBooksQuery(params);
 
   const onChange = useCallback((value: string) => {

@@ -4,7 +4,7 @@ export {
   addToHistory,
   deleteFromHistory,
   clearHistory,
-  setHistoryList
+  setHistoryList,
 } from "./model/slice";
 
 export { historyMiddleware } from "./api/historyMiddleware";

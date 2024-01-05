@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { SessionState, User } from './types';
+import { getLocalUser } from '../lib/getLocalUser';
+import { SessionState, User, UserData } from './types';
 
 const initialState: SessionState = {
   isAuthorized: false,
-  user: null,
+  userEmail: getLocalUser(),
   errors: {
     emailError: '',
     passwordError: '',
@@ -15,22 +16,14 @@ export const sessionSlice = createSlice({
   name: 'session',
   initialState,
   reducers: {
-    clearSession: (state) => {
-      state.isAuthorized = false;
-      state.user = null;
+    successLogin: (state, action: PayloadAction<User>) => {
+      state.userEmail = action.payload.email;
     },
-    setUser: (state, action: PayloadAction<User>) => {
-      state.isAuthorized = true
-      state.user = action.payload;
+    logout: (state) => {
+      state.userEmail = null;
     },
-    createUser: (state, action: PayloadAction<User>) => {
-
-    },
-    remindSession: () => {
-
-    },
-    login: (state, action: PayloadAction<User>) => {
-
+    createUser: (state, action: PayloadAction<UserData>) => {
+      state.userEmail = action.payload.email;
     },
     setErrors: (state, action: PayloadAction<{emailError: string, passwordError: string}>) => {
       state.errors = action.payload;
@@ -38,6 +31,6 @@ export const sessionSlice = createSlice({
   },
 })
 
-export const { clearSession, setUser, createUser, remindSession, login, setErrors } = sessionSlice.actions
+export const { successLogin, logout, createUser, setErrors } = sessionSlice.actions
 
 export const sessionReducer  = sessionSlice.reducer

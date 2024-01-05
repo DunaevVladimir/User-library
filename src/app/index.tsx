@@ -5,9 +5,7 @@ import { Providers } from './providers';
 import '@/app/index.scss';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <Providers>
-      <App />
-    </Providers>
-  </React.StrictMode>
+  <Providers>
+    <App />
+  </Providers>
 );
