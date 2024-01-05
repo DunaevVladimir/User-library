@@ -89,7 +89,7 @@ export function SearchPageContainer() {
   }, [params]);
 
   const render = (book: Book) => { return <BookArticle book={book} /> };
-  const sagest = (book: Book) => { return <BookItem book={book} /> };
+  const suggest = (book: Book) => { return <BookItem book={book} /> };
 
   return (
     <main onKeyDown={onKeyDown} className={s.Content}>
@@ -99,8 +99,8 @@ export function SearchPageContainer() {
           <Button onClick={onSearch} className={s.Search}></Button>
           {
             input && isSuggests &&
-              <div className={s.Sagests} onMouseEnter={() =>setIsSuggestsFocus(true)} onMouseLeave={() => setIsSuggestsFocus(false)}>
-                <List list={books.docs} renderItem={sagest} emptyText='Нет книг по вашим параметрам'/>
+              <div className={s.Suggests} onMouseEnter={() =>setIsSuggestsFocus(true)} onMouseLeave={() => setIsSuggestsFocus(false)}>
+                <List list={books.docs} renderItem={suggest} emptyText='Нет книг по вашим параметрам'/>
               </div>
           }
         </div>

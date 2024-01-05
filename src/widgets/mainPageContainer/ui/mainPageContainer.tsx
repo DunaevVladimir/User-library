@@ -21,8 +21,8 @@ export function MainPageContainer() {
   const booksLoading = useSelector((state: RootState) => state.books.isLoading);
   const [searchParams, setSearchParams] = useSearchParams();
   const [input, setInput] = useState<string>(searchParams.get('q') || '');
-  const [isSagests, setIsSagests] = useState<boolean>(false);
-  const [isSagestsFocus, setIsSagestsFocus] = useState<boolean>(false);
+  const [isSuggests, setIsSuggests] = useState<boolean>(false);
+  const [isSuggestsFocus, setIsSuggestsFocus] = useState<boolean>(false);
   const debouncedValue = useDebounce<string>(input, 500);
 
   const params = {
@@ -58,19 +58,19 @@ export function MainPageContainer() {
   }, [onSearch]);
 
   const onBlur = useCallback(() => {
-    if (!isSagestsFocus) {
-      setIsSagests(false);
+    if (!isSuggestsFocus) {
+      setIsSuggests(false);
     }
-  }, [isSagestsFocus]);
+  }, [isSuggestsFocus]);
 
   const onFocus = useCallback(() => {
-    if (!isSagestsFocus) {
-      setIsSagests(true);
+    if (!isSuggestsFocus) {
+      setIsSuggests(true);
     }
-  }, [isSagestsFocus]);
+  }, [isSuggestsFocus]);
 
   const render = (book: Book) => { return <BookArticle book={book} /> }
-  const sagest = (book: Book) => { return <BookItem book={book} /> };
+  const suggest = (book: Book) => { return <BookItem book={book} /> };
 
   return (
     <main onKeyDown={onKeyDown} className={s.Content}>
@@ -79,9 +79,9 @@ export function MainPageContainer() {
           <Input onFocus={onFocus} onBlur={onBlur} onChange={onChange} type="text" placeholder="Поиск" name="query" currentValue={input} />
           <Button onClick={onSearch} className={s.Search}></Button>
           {
-            input && isSagests &&
-              <div className={s.Sagests} onMouseEnter={() => setIsSagestsFocus(true)} onMouseLeave={() => setIsSagestsFocus(false)}>
-                <List list={books.docs} renderItem={sagest} emptyText='Нет книг по вашим параметрам'/>
+            input && isSuggests &&
+              <div className={s.Suggests} onMouseEnter={() => setIsSuggestsFocus(true)} onMouseLeave={() => setIsSuggestsFocus(false)}>
+                <List list={books.docs} renderItem={suggest} emptyText='Нет книг по вашим параметрам'/>
               </div>
           }
         </div>

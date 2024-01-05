@@ -3,12 +3,14 @@ import { Book } from '@/entities/books';
 import { AddToFavoritesButton } from '@/features/addToFavorites';
 import { useFavorites } from '@/entities/favorites';
 import { BackButton } from '@/features/navigate/back';
+import { useAuth } from '@/entities/session';
 
 type Props = {
   book: Book;
 }
 
 export function BookCard({book}: Props) {
+  const isAuth = useAuth();
   const isAdded = useFavorites(book.key);
   const description = (typeof book.description === 'string') ? book.description : book.description?.value;
   
@@ -22,7 +24,10 @@ export function BookCard({book}: Props) {
       <p>
         <span className={s.Span}>Издано в:</span>{book.first_publish_date}
       </p>
-      <AddToFavoritesButton isAdded={isAdded} id={book.key}/>
+      {
+        isAuth &&
+          <AddToFavoritesButton isAdded={isAdded} id={book.key}/>
+      }
     </main>
   );
 }
