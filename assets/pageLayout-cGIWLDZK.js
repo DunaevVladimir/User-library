@@ -1,0 +1,1 @@
+import{j as t}from"./index-s5YbRwx2.js";const o="_PageLayout_1gy54_1",i="_Title_1gy54_7",a={PageLayout:o,Title:i};function c({children:e,title:s}){return t.jsxs("div",{className:a.PageLayout,children:[t.jsx("h1",{className:a.Title,children:s}),e]})}export{c as P};

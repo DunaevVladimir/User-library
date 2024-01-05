@@ -1,0 +1,1 @@
+import{r as i}from"./index-s5YbRwx2.js";let t=JSON.parse(localStorage.getItem("HistoryId"));t||(t=1);function r(){function n(){return++t,localStorage.setItem("HistoryId",JSON.stringify(t)),t}return n()}function d(n,e){const[c,o]=i.useState(n);return i.useEffect(()=>{const u=setTimeout(()=>o(n),e||500);return()=>{clearTimeout(u)}},[n,e]),c}export{r as g,d as u};

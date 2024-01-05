@@ -1,0 +1,1 @@
+import{j as o,r as m}from"./index-s5YbRwx2.js";const c="_Form_oscjr_1",e="_Input_oscjr_22",a={Form:c,Input:e};function _({onSubmit:r,children:s}){const t=n=>{n.preventDefault(),r()};return o.jsx("form",{onSubmit:t,className:a.Form,children:s})}const u={Error:"_Error_1cvr3_1"},i=m.memo(({text:r})=>o.jsx("span",{className:u.Error,children:r}));export{i as E,_ as L};
