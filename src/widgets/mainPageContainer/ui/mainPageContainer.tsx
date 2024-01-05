@@ -1,23 +1,24 @@
-import { useState, useCallback, useMemo } from 'react';
-import { useGetBooksQuery } from '@/entities/books';
+import { useState, useCallback, useEffect } from 'react';
+import { useGetBooksQuery, fetchBooks, Book, BookItem } from '@/entities/books';
 import { List } from '@/shared/ui/list/list';
 import { Spinner } from '@/shared/ui/spinner/spinner';
 import { Input } from '@/shared/ui/input/input';
 import { Button } from '@/shared/ui/button/button';
-import { Book } from '@/entities/books';
 import { useSearchParams } from 'react-router-dom';
 import { BookArticle } from '@/widgets/bookArticle';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToHistory } from '@/entities/history';
 import { generateId } from '../lib/generateId';
-import { BookItem } from '@/entities/books';
 import { useDebounce } from 'usehooks-ts';
+import { RootState, AppDispatch } from '@/app/providers/store';
 import s from './mainPageContainer.module.scss';
 
 export function MainPageContainer() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const booksList = useSelector((state: RootState) => state.books.bookList);
+  const bookLoading = useSelector((state: RootState) => state.books.isLoading);
   const [searchParams, setSearchParams] = useSearchParams();
   const [input, setInput] = useState<string>(searchParams.get('q') || '');
   const [isSagests, setIsSagests] = useState<boolean>(false);
@@ -26,8 +27,16 @@ export function MainPageContainer() {
 
   const params = {
     q: debouncedValue || 'language:rus',
-    limit: 10,
+    limit: '5',
   }
+
+  useEffect(() => {
+    dispatch(fetchBooks({
+      q: input || 'language:rus',
+      limit: '10',
+      fields: 'key, title'
+    }));
+  }, []);
 
   const { data: books = {docs: []}, isLoading , isFetching} = useGetBooksQuery(params);
 
@@ -71,15 +80,15 @@ export function MainPageContainer() {
           <Button onClick={onSearch} className={s.Search}></Button>
           {
             input && isSagests &&
-              <div className={s.Sagests} onMouseEnter={() =>setIsSagestsFocus(true)} onMouseLeave={() => setIsSagestsFocus(false)}>
+              <div className={s.Sagests} onMouseEnter={() => setIsSagestsFocus(true)} onMouseLeave={() => setIsSagestsFocus(false)}>
                 <List list={books.docs} renderItem={sagest} emptyText='Нет книг по вашим параметрам'/>
               </div>
           }
         </div>
         {
-          isLoading || isFetching
+          bookLoading
             ? <Spinner />
-            : <List list={books.docs} renderItem={render} emptyText='Нет книг по вашим параметрам'/>
+            : <List list={booksList} renderItem={render} emptyText='Нет книг по вашим параметрам'/>
         }
       </div>
     </main>

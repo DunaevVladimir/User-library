@@ -3,6 +3,7 @@ import { baseApi } from '@/shared/api';
 import { sessionMiddleware, sessionReducer } from '@/entities/session';
 import { favoritesReducer, favoritesMiddleware } from '@/entities/favorites';
 import { historyReducer, historyMiddleware } from '@/entities/history';
+import { booksReducer } from '@/entities/books';
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
         session: sessionReducer,
         favorites: favoritesReducer,
         history: historyReducer,
+        books: booksReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
         .concat(baseApi.middleware)

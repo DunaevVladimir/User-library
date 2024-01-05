@@ -1,37 +1,46 @@
-import { useState, useCallback } from 'react';
-import { useGetBooksQuery } from '@/entities/books';
+import { useState, useCallback, useEffect } from 'react';
+import { useGetBooksQuery, Book, BookItem, fetchBooks } from '@/entities/books';
 import { List } from '@/shared/ui/list/list';
 import { Spinner } from '@/shared/ui/spinner/spinner';
 import { Input } from '@/shared/ui/input/input';
 import { Button } from '@/shared/ui/button/button';
-import { Book, BookItem } from '@/entities/books';
 import { useSearchParams } from 'react-router-dom';
 import { BookArticle } from '@/widgets/bookArticle';
 import { useDebounce } from 'usehooks-ts';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToHistory } from '@/entities/history';
 import { generateId } from '@/widgets/mainPageContainer/lib/generateId';
+import { AppDispatch, RootState } from '@/app/providers/store';
 import s from './searchPageContainer.module.scss';
 
 export function SearchPageContainer() {
+  const booksList = useSelector((state: RootState) => state.books.bookList);
+  const bookLoading = useSelector((state: RootState) => state.books.isLoading);
   const [searchParams, setSearchParams] = useSearchParams();
   const [input, setInput] = useState<string>(searchParams.get('q') || '');
-  const [isSagests, setIsSagests] = useState<boolean>(false);
-  const [isSagestsFocus, setIsSagestsFocus] = useState<boolean>(false);
+  const [isSuggests, setIsSuggests] = useState<boolean>(false);
+  const [isSuggestsFocus, setIsSuggestsFocus] = useState<boolean>(false);
   const debouncedValue = useDebounce<string>(input, 500);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const [params, setParams] = useState({
+    q: debouncedValue || 'language:rus',
+    limit: 5,
+  })
 
-  const params = {
+  const suggestsParams = {
     q: debouncedValue || 'language:rus',
     limit: 5,
   }
 
-  const params2 = {
-    q: 'language:rus',
-    limit: 5,
-  }
+  useEffect(() => {
+    dispatch(fetchBooks({
+      q: input || 'language:rus',
+      limit: '10',
+      fields: 'key, title'
+    }));
+  }, [params]);
 
-  const { data: books = {docs: []}, isLoading , isFetching} = useGetBooksQuery(params);
+  const { data: books = {docs: []}, isLoading , isFetching} = useGetBooksQuery(suggestsParams);
 
   const onChange = useCallback((value: string) => {
     setInput(value);
@@ -42,7 +51,11 @@ export function SearchPageContainer() {
     if (input) {
       dispatch(addToHistory({title: input, link: `/search?q=${input}`, id: generateId()}));
       setSearchParams({q: input});
-      setIsSagests(false);
+      setIsSuggests(false);
+      setParams({
+        ...params,
+        q: input
+      })
     } else {
       searchParams.delete('q');
       setSearchParams(searchParams);
@@ -56,16 +69,16 @@ export function SearchPageContainer() {
   }, [onSearch]);
 
   const onBlur = useCallback(() => {
-    if (!isSagestsFocus) {
-      setIsSagests(false);
+    if (!isSuggestsFocus) {
+      setIsSuggests(false);
     }
-  }, [isSagestsFocus]);
+  }, [isSuggestsFocus]);
 
   const onFocus = useCallback(() => {
-    if (!isSagestsFocus) {
-      setIsSagests(true);
+    if (!isSuggestsFocus) {
+      setIsSuggests(true);
     }
-  }, [isSagestsFocus]);
+  }, [isSuggestsFocus]);
 
   const render = (book: Book) => { return <BookArticle book={book} /> };
   const sagest = (book: Book) => { return <BookItem book={book} /> };
@@ -77,16 +90,16 @@ export function SearchPageContainer() {
           <Input onFocus={onFocus} onBlur={onBlur} onChange={onChange} type="text" placeholder="Поиск" name="query" currentValue={input} />
           <Button onClick={onSearch} className={s.Search}></Button>
           {
-            input && isSagests &&
-              <div className={s.Sagests} onMouseEnter={() =>setIsSagestsFocus(true)} onMouseLeave={() => setIsSagestsFocus(false)}>
+            input && isSuggests &&
+              <div className={s.Sagests} onMouseEnter={() =>setIsSuggestsFocus(true)} onMouseLeave={() => setIsSuggestsFocus(false)}>
                 <List list={books.docs} renderItem={sagest} emptyText='Нет книг по вашим параметрам'/>
               </div>
           }
         </div>
         {
-          isLoading || isFetching
+          bookLoading
             ? <Spinner />
-            : <List list={books.docs} renderItem={render} emptyText='Нет книг по вашим параметрам'/>
+            : <List list={booksList} renderItem={render} emptyText='Нет книг по вашим параметрам'/>
         }
       </div>
     </main>
