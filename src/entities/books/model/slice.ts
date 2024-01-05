@@ -3,8 +3,13 @@ import { BooksState } from './types';
 
 export const fetchBooks = createAsyncThunk(
   'books',
-  async (params: {q: string, limit: string, fields: string}) => {
-    const response = fetch('https://openlibrary.org/search.json?' + new URLSearchParams(params))
+  async (params: {q: string, limit: number, fields: string, page?: number}) => {
+    const newParams = {
+      ...params,
+      limit: String(params.limit),
+      page: String(params.page),
+    }
+    const response = fetch('https://openlibrary.org/search.json?' + new URLSearchParams(newParams))
       .then(res => res.json());
 
     return await response
@@ -14,6 +19,7 @@ export const fetchBooks = createAsyncThunk(
 const initialState: BooksState = {
   bookList: [],
   isLoading: false,
+  count: 0,
 }
 
 export const booksSlice = createSlice({
@@ -25,6 +31,7 @@ export const booksSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchBooks.fulfilled, (state, action) => {
+        state.count = action.payload.numFound;
         state.bookList = action.payload.docs;
         state.isLoading = false;
       })

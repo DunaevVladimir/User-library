@@ -4,6 +4,7 @@ import { List } from '@/shared/ui/list/list';
 import { Spinner } from '@/shared/ui/spinner/spinner';
 import { Input } from '@/shared/ui/input/input';
 import { Button } from '@/shared/ui/button/button';
+import { Pagination } from '@/shared/ui/pagination/pagination';
 import { useSearchParams } from 'react-router-dom';
 import { BookArticle } from '@/widgets/bookArticle';
 import { useDebounce } from 'usehooks-ts';
@@ -15,7 +16,8 @@ import s from './searchPageContainer.module.scss';
 
 export function SearchPageContainer() {
   const booksList = useSelector((state: RootState) => state.books.bookList);
-  const bookLoading = useSelector((state: RootState) => state.books.isLoading);
+  const booksLoading = useSelector((state: RootState) => state.books.isLoading);
+  const booksCount = useSelector((state: RootState) => state.books.count);
   const [searchParams, setSearchParams] = useSearchParams();
   const [input, setInput] = useState<string>(searchParams.get('q') || '');
   const [isSuggests, setIsSuggests] = useState<boolean>(false);
@@ -24,7 +26,9 @@ export function SearchPageContainer() {
   const dispatch = useDispatch<AppDispatch>();
   const [params, setParams] = useState({
     q: debouncedValue || 'language:rus',
-    limit: 5,
+    limit: 10,
+    page: 1,
+    fields: 'key, title'
   })
 
   const suggestsParams = {
@@ -33,11 +37,7 @@ export function SearchPageContainer() {
   }
 
   useEffect(() => {
-    dispatch(fetchBooks({
-      q: input || 'language:rus',
-      limit: '10',
-      fields: 'key, title'
-    }));
+    dispatch(fetchBooks(params));
   }, [params]);
 
   const { data: books = {docs: []}, isLoading , isFetching} = useGetBooksQuery(suggestsParams);
@@ -54,7 +54,8 @@ export function SearchPageContainer() {
       setIsSuggests(false);
       setParams({
         ...params,
-        q: input
+        q: input,
+        page: 1,
       })
     } else {
       searchParams.delete('q');
@@ -80,6 +81,13 @@ export function SearchPageContainer() {
     }
   }, [isSuggestsFocus]);
 
+  const onChangePage = useCallback((page: number) => {
+    setParams({
+      ...params,
+      page: page
+    })
+  }, [params]);
+
   const render = (book: Book) => { return <BookArticle book={book} /> };
   const sagest = (book: Book) => { return <BookItem book={book} /> };
 
@@ -97,9 +105,12 @@ export function SearchPageContainer() {
           }
         </div>
         {
-          bookLoading
+          booksLoading
             ? <Spinner />
-            : <List list={booksList} renderItem={render} emptyText='Нет книг по вашим параметрам'/>
+            : <>
+                <List list={booksList} renderItem={render} emptyText='Нет книг по вашим параметрам'/>
+                <Pagination currentPage={params.page} count={booksCount} limit={params.limit} onChangePage={onChangePage}/>
+              </>
         }
       </div>
     </main>

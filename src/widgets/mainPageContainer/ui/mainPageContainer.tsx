@@ -18,7 +18,7 @@ export function MainPageContainer() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const booksList = useSelector((state: RootState) => state.books.bookList);
-  const bookLoading = useSelector((state: RootState) => state.books.isLoading);
+  const booksLoading = useSelector((state: RootState) => state.books.isLoading);
   const [searchParams, setSearchParams] = useSearchParams();
   const [input, setInput] = useState<string>(searchParams.get('q') || '');
   const [isSagests, setIsSagests] = useState<boolean>(false);
@@ -33,8 +33,8 @@ export function MainPageContainer() {
   useEffect(() => {
     dispatch(fetchBooks({
       q: input || 'language:rus',
-      limit: '10',
-      fields: 'key, title'
+      limit: 10,
+      fields: 'key, title',
     }));
   }, []);
 
@@ -86,7 +86,7 @@ export function MainPageContainer() {
           }
         </div>
         {
-          bookLoading
+          booksLoading
             ? <Spinner />
             : <List list={booksList} renderItem={render} emptyText='Нет книг по вашим параметрам'/>
         }

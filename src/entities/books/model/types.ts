@@ -11,5 +11,6 @@ export type Book = {
 export type BooksState = {
   bookList: Book[];
   isLoading: boolean;
+  count: number;
 }
 

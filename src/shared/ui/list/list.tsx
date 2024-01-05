@@ -9,7 +9,7 @@ type Props = {
 
 export function List({list, renderItem, emptyText}: Props) {
   return (
-    <ul>
+    <ul className={s.List}>
       {
         list.length 
           ? list.map((item) => (

@@ -1,0 +1,15 @@
+.Pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+
+  button {
+    font-size: 25px;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: royalblue;
+    }
+  }
+}
